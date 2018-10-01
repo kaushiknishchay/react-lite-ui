@@ -8,7 +8,7 @@ import defaultTheme from './theme.scss';
 class Button extends Component {
   render() {
     const {
-      children, type, size, className, href, icon, iconAlignment, theme, ...others
+      children, type, size, className, href, icon, iconAlignment, theme, noShadow, ...others
     } = this.props;
     const Element = href ? 'a' : 'button';
     const classes = classnames(theme.button, theme[type], theme[size], className);
