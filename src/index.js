@@ -13,15 +13,17 @@ import Tooltip from './tooltip';
 import AutoComplete from './autocomplete';
 import Badge from './badge';
 import Drawer from './drawer';
-import List from './list';
-import ListItem from './listitem';
 import Chip from './chip';
 import Menu from './menu';
 import Modal from './modal';
 import MultiSelect from './multiselect';
 import Navbar from './navbar';
+import Popover from './popover';
 import Preloader from './preloader';
 import Select from './select';
+import Slider from './slider';
+import Carousel from './carousel';
+import ProgressBar from './progressbar';
 
 export default {
   Button,
@@ -37,15 +39,17 @@ export default {
   AutoComplete,
   Badge,
   Drawer,
-  List,
-  ListItem,
   Chip,
   Menu,
   Modal,
   MultiSelect,
   Navbar,
+  Popover,
   Preloader,
   Select,
+  Slider,
+  Carousel,
+  ProgressBar,
 };
 
 // ReactDOM.render(

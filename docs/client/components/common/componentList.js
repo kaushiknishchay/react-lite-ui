@@ -24,8 +24,6 @@ import BadgeReadme from '../../../../src/badge/readMe.md';
 import Badge from '../../../../src/badge';
 import Drawer from '../../../../src/drawer';
 import DrawerReadme from '../../../../src/drawer/readMe.md';
-import List from '../../../../src/list';
-import ListReadMe from '../../../../src/list/readMe.md';
 import ChipReadMe from '../../../../src/chip/readMe.md';
 import Chip from '../../../../src/chip';
 import Menu from "../../../../src/menu";
@@ -36,10 +34,18 @@ import MultiSelectReadMe from '../../../../src/multiselect/readMe.md';
 import MultiSelect from "../../../../src/multiselect";
 import NavbarReadMe from '../../../../src/navbar/readMe.md';
 import Navbar from '../../../../src/navbar';
+import PopoverReadme from '../../../../src/popover/readMe.md';
+import Popover from '../../../../src/popover';
 import PreloaderReadme from '../../../../src/preloader/readMe.md';
 import Preloader from '../../../../src/preloader';
 import Select from '../../../../src/select';
 import SelectReadme from '../../../../src/select/readMe.md';
+import Slider from '../../../../src/slider';
+import SliderReadMe from '../../../../src/slider/readMe.md';
+import Carousel from '../../../../src/carousel';
+import CarouselReadme from '../../../../src/carousel/readMe.md';
+import ProgressBar from '../../../../src/progressbar';
+import ProgressBarReadme from '../../../../src/progressbar/readMe.md';
 
 import {
   CardDefaultCode,
@@ -55,14 +61,17 @@ import {
   AutoCompleteDefaultCode,
   BadgeDefaultCode,
   DrawerDefaultCode,
-  ListDefaultCode,
   ChipDefaultCode,
   MenuDefaultCode,
   ModalDefaultCode,
   MultiSelectDefaultCode,
   NavbarDefaultCode,
+  PopoverDefaultCode,
   PreloaderDefaultCode,
   SelectDefaultCode,
+  SliderDefaultCode,
+  CarouselDefaultCode,
+  ProgressBarDefaultCode,
 } from './DefaultCode';
 
 export const componentList = [
@@ -97,6 +106,12 @@ export const componentList = [
     defaultCode: CardDefaultCode,
   },
   {
+    name: 'Carousel',
+    docs: CarouselReadme,
+    component: Carousel,
+    defaultCode: CarouselDefaultCode,
+  },
+  {
     name: 'Checkbox',
     docs: CheckboxReadme,
     component: Checkbox,
@@ -119,12 +134,6 @@ export const componentList = [
     docs: DrawerReadme,
     component: Drawer,
     defaultCode: DrawerDefaultCode,
-  },
-  {
-    name: 'List',
-    docs: ListReadMe,
-    component: List,
-    defaultCode: ListDefaultCode,
   },
   {
     name: 'Menu',
@@ -151,10 +160,22 @@ export const componentList = [
     defaultCode: NavbarDefaultCode,
   },
   {
+    name: 'Popover',
+    docs: PopoverReadme,
+    component: Popover,
+    defaultCode: PopoverDefaultCode,
+  },
+  {
     name: 'Preloader',
     docs: PreloaderReadme,
     component: Preloader,
     defaultCode: PreloaderDefaultCode,
+  },
+  {
+    name: 'ProgressBar',
+    docs: ProgressBarReadme,
+    component: ProgressBar,
+    defaultCode: ProgressBarDefaultCode,
   },
   {
     name: 'RadioButtonGroup',
@@ -167,6 +188,12 @@ export const componentList = [
     docs: SelectReadme,
     component: Select,
     defaultCode: SelectDefaultCode,
+  },
+  {
+    name: 'Slider',
+    docs: SliderReadMe,
+    component: Slider,
+    defaultCode: SliderDefaultCode,
   },
   {
     name: 'Snackbar',

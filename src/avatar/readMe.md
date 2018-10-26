@@ -1,6 +1,6 @@
 ## Avatar
 
-The base avatar component.
+A basic avatar component.
 
 ### Properties
 | Name | Type | Default | Description |
@@ -10,6 +10,7 @@ The base avatar component.
 | `image` | `String` | `null` | Prop to render avatar with image |
 | `alt` | `String` | &nbsp; | Alternate text for image |
 | `className` | `String` | &nbsp; | Set a class to style the component |
+| `bgColor` | `String` | `darkGrey` | Set a class to apply background color to the component. Possible vales are `darkBlue`, `lightBlue`, `green`, `orange`, `lightRed`, `white`, `grey` and `darkGrey` |
 
 ### Theme
 

@@ -14,8 +14,15 @@ class MultiSelect extends Component {
       */
       selected: [],
       open: false,
+      input: '',
     };
   }
+
+  handleInput = ({ target }) => {
+    this.setState({
+      input: target.value,
+    });
+  };
 
   // Handle the click event when user selects / clicks on an option from the dropdown.
   handleSelect = (selectedOption) => {
@@ -42,14 +49,57 @@ class MultiSelect extends Component {
     });
   };
 
+  handleKeyPress = (e) => {
+    const { options } = this.props;
+    const { input, selected } = this.state;
+    const isValid =
+      options
+        .filter(opt =>
+          opt
+            .label
+            .toLowerCase()
+            .indexOf(input.toLowerCase()) !== -1);
+    switch (e.key) {
+      case 'Enter':
+        if (isValid.length) {
+          if (
+            !selected.filter(item => item.label === isValid[0].label).length
+          ) {
+            this.setState({
+              selected: [...selected, isValid[0]],
+            });
+          }
+        }
+        this.setState({
+          input: '',
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
+  showMenu = () => {
+    this.setState({
+      open: true,
+      blockClickEvent: true,
+    });
+  };
+
   /*
   Dropdown handle used to toggle open and closed states for the dropdown when user
   clicks on select box / arrow.
   */
   toggleMenu = () => {
-    this.setState(prevState => ({
-      open: !prevState.open,
-    }));
+    if (!this.state.blockClickEvent) {
+      this.setState(prevState => ({
+        open: !prevState.open,
+      }));
+    } else {
+      this.setState({
+        blockClickEvent: false,
+      });
+    }
   };
 
   /*
@@ -83,8 +133,20 @@ class MultiSelect extends Component {
   // Helper function to render options inside the dropdown.
   renderOptions = (options) => {
     const { theme } = this.props;
-    const { selected } = this.state;
-    return options.map((option) => {
+    const { selected, input } = this.state;
+    let filteredOptions;
+    if (input.length) {
+      filteredOptions =
+        options
+          .filter(opt =>
+            opt
+              .label
+              .toLowerCase()
+              .indexOf(input.toLowerCase()) !== -1);
+    } else {
+      filteredOptions = options;
+    }
+    return filteredOptions.map((option) => {
       /* eslint-disable jsx-a11y/click-events-have-key-events */
       /* eslint-disable jsx-a11y/no-static-element-interactions */
       const itemtheme = cx(
@@ -114,7 +176,11 @@ class MultiSelect extends Component {
     const { theme } = this.props;
     const { selected } = this.state;
     return selected.map(option => (
-      <div className={theme.selected}>
+      <div
+        className={theme.selected}
+        aria-label={option.label}
+        key={option.label}
+      >
         <div>
           <span>{option.label}</span>
           <div
@@ -134,28 +200,39 @@ class MultiSelect extends Component {
     return (
       <div className={classes}>
         <div
-          className={theme.selectInput}
+          className={cx(theme.selectInputWrapper, {
+            [theme['border-animation']]: open,
+          })}
+          onFocus={this.showMenu}
           onClick={this.toggleMenu}
           onBlur={this.hideMenu}
+          onKeyDown={this.handleKeyPress}
           /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
           tabIndex={0}
+          id="multiselect-input"
         >
-          {this.renderSelected()}
+          <div id="selected-options" className={theme.selectedInput}>
+            {this.renderSelected()}
+          </div>
+          <div className={cx(theme.arrow, open ? theme.up : theme.down)} />
         </div>
-        <div
-          className={menuclass}
-          onMouseEnter={() => this.blockOnBlur(true)}
-          onMouseLeave={() => this.blockOnBlur(false)}
-        >
-          {this.renderOptions(options)}
-        </div>
+        {open && (
+          <div
+            id="dropdown-options"
+            className={menuclass}
+            onMouseEnter={() => this.blockOnBlur(true)}
+            onMouseLeave={() => this.blockOnBlur(false)}
+          >
+            {this.renderOptions(options)}
+          </div>
+        )}
       </div>
     );
   }
 }
 
 MultiSelect.propTypes = {
-  options: PropTypes.oneOfType([PropTypes.array]),
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
   theme: PropTypes.oneOfType([PropTypes.object]).isRequired,
   className: PropTypes.string,
   // User callback for getting selected values - gives array of values
@@ -164,7 +241,6 @@ MultiSelect.propTypes = {
 };
 
 MultiSelect.defaultProps = {
-  options: [],
   className: '',
   onSelect: value => console.log(value),
 };
