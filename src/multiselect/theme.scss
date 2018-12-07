@@ -1,6 +1,6 @@
-@import '../globals/_theme.scss';
-@import '../globals/animations.scss';
-@import '../globals/common.scss';
+@import "../globals/_theme.scss";
+@import "../globals/animations.scss";
+@import "../globals/common.scss";
 :local(.select) {
     @include customScroll();
     box-sizing: border-box;
@@ -14,6 +14,7 @@
     flex-direction: column;
     padding: 0.5% 0 0 0;
     color: #6c757d;
+    position: relative;
 }
 
 :local(.menu) {
@@ -23,27 +24,40 @@
     width: 100%;
     background-color: white;
     max-height: 150px;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     margin-top: 1%;
     box-shadow: 1px 1px 1px 2px rgba(233, 226, 226, 0.5), 0 1px 1px 0 rgba(194, 194, 194, 0.5);
 }
 
 :local(.option) {
-    width: 100;
-    padding: 2% 5% 0% 5%;
+    display: inline-flex;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 2% 5% 0%;
     cursor: pointer;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     outline: none;
     min-height: fit-content;
+    min-height: -moz-fit-content;
     &:hover {
         background: rgba(71, 233, 243, 0.2);
     }
+    &>span {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+:local(.item-hover) {
+    background: rgba(71, 233, 243, 0.2);
 }
 
 :local(.show) {
     display: flex;
+    position: absolute;
+    top: 100%;
+    width: 100%;
 }
 
 :local(.hide) {
@@ -129,8 +143,8 @@
 :local(.arrow) {
     align-self: flex-start;
     border: none;
-    border-right: 2px solid #1A237E;
-    border-bottom: 2px solid #1A237E;
+    border-right: 2px solid #1a237e;
+    border-bottom: 2px solid #1a237e;
     height: 5px;
     width: 5px;
     margin-right: -5px;
@@ -148,9 +162,10 @@
 
 :local(.border-animation) {
     &::after {
-        content: '';
+        content: "";
         position: absolute;
         bottom: -2px;
+        left: 0px;
         background-color: $primary-input-active-border !important;
         height: 2px;
         @include inputFocus();

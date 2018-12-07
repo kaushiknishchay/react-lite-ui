@@ -7,39 +7,65 @@ import defaultTheme from './theme.scss';
 class Popover extends React.Component {
   state = {
     isVisible: false,
-  }
+    blockBlurEvent: false,
+  };
 
-  togglePopoverClick = () => {
+  togglePopoverClick = (e) => {
+    /*
+     *  In safari the element is not retaining focus after click,
+     *  so, Blur event is never called for hiding popover.
+     *  To resolve the element is focussed manually when clicked,
+     *  which triggers blur when clicked outside popover.
+    */
+    e.target.focus();
     this.setState(prevState => ({
       isVisible: !prevState.isVisible,
     }));
-  }
+  };
 
   hidePopover = () => {
-    setTimeout(() => {
+    const { blockBlurEvent } = this.state;
+    if (!blockBlurEvent) {
       this.setState({
         isVisible: false,
       });
-    }, 100);
+    }
+  };
+
+  defaultActionClick = () => {
+    const { onConfirm } = this.props;
+    const closePopover = onConfirm();
+    if (closePopover) {
+      this.setState({
+        isVisible: false,
+      });
+    }
   }
+
+  blockBlurEvent = (status) => {
+    this.setState({
+      blockBlurEvent: status,
+    });
+  };
 
   /*  eslint-disable jsx-a11y/click-events-have-key-events  */
   /*  eslint-disable jsx-a11y/no-static-element-interactions */
   renderActionContent = () => {
-    const { theme, actionContent, onConfirm } = this.props;
+    const { theme, actionContent } = this.props;
     return (
       <span
         className={theme.actionWrapper}
-        onClick={onConfirm}
+        onClick={this.defaultActionClick}
+        aria-label="action-content"
       >
-        {
-          typeof actionContent === 'string'
-            ? <span className={theme.actionContent}>{ actionContent }</span>
-            : actionContent
-        }
+        {typeof actionContent === 'string' ? (
+          <span className={theme.actionContent}>{actionContent}</span>
+        ) : (
+          actionContent
+        )}
       </span>
     );
-  }
+  };
 
   render() {
     const {
@@ -56,29 +82,37 @@ class Popover extends React.Component {
     } = this.props;
     const { isVisible } = this.state;
     const classes = classnames(theme.popover, className);
-    const popoverClasses = classnames(theme[`${position}Popover`], theme.popoverWrapper);
+    const popoverClasses = classnames(
+      theme[`${position}Popover`],
+      theme.popoverWrapper,
+    );
     return (
       <div className={classes}>
         <div
           className={theme.contentWrapper}
-          onClick={this.togglePopoverClick}
+          onClick={e => this.togglePopoverClick(e)}
           onBlur={this.hidePopover}
           {...other}
         >
           {children}
         </div>
-        {
-          isVisible && (
-            <div className={popoverClasses}>
-              {title && <span className={theme.title}>{title}</span>}
-              <div className={classnames(theme.popoverContent)}>
-                {content}
-              </div>
-              { !noAction && this.renderActionContent() }
-              <span className={theme.popoverArrow} />
-            </div>
-          )
-        }
+        {/* eslint-disable jsx-a11y/no-noninteractive-tabindex */}
+        {isVisible && (
+          <div
+            className={popoverClasses}
+            onMouseEnter={() => this.blockBlurEvent(true)}
+            onMouseLeave={() => this.blockBlurEvent(false)}
+            onBlur={this.hidePopover}
+            aria-label="popover-content"
+            id="popover-test"
+            tabIndex={0}
+          >
+            {title && <span className={theme.title} aria-label="popover-title">{title}</span>}
+            <div className={classnames(theme.popoverContent)}>{content}</div>
+            {!noAction && this.renderActionContent()}
+            <span className={theme.popoverArrow} />
+          </div>
+        )}
       </div>
     );
   }
@@ -100,9 +134,9 @@ Popover.defaultProps = {
   theme: defaultTheme,
   className: '',
   children: null,
-  title: '',
+  title: null,
   position: 'bottomLeft',
-  onConfirm: () => {},
+  onConfirm: () => true,
   noAction: false,
   actionContent: 'confirm',
 };

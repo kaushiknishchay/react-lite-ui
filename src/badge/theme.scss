@@ -10,16 +10,20 @@
     float: left; 
 }
 
+.clearfix {
+  clear: both;
+}
+
 :local(.badge-container-small) {
-    padding: 1.5%;
+    padding: 10px;
 }
 
 :local(.badge-container-medium) {
-    padding: 3%;
+    padding: 15px;
 }
 
 :local(.badge-container-large) {
-    padding: 5%;
+    padding: 20px;
 }
 
 :local(.badge) {
@@ -35,6 +39,15 @@
     min-width: fit-content;
     padding: 1px;
     font-family: 'Helvetica';
+
+    & > .fadeOut {
+        opacity: 0;
+    }
+    
+    & > span {
+        opacity: 1;
+        transition: opacity 200ms ease-in-out;
+    }
 }
 
 :local(.small) {

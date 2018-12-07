@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Checkbox from '../checkbox';
 
-import styles from './theme.scss';
+import defaultTheme from './theme.scss';
 
 class CheckboxGroup extends React.Component {
   constructor(props) {
@@ -35,22 +35,23 @@ class CheckboxGroup extends React.Component {
       theme,
     } = this.props;
 
-    const classNames = cx(styles['checkbox-group']);
-    return options.map(option => (
-      <React.Fragment key={option.label}>
-        <div className={classNames}>
-          <div className={cx(styles['each-check'], { inline })}>
-            <Checkbox
-              {...option}
-              checked={this.state.isChecked[option.label]}
-              onClick={this.handleCheckListChange}
-              theme={theme}
-            />
+    const classNames = cx(theme['checkbox-group'], { inline });
+    return (
+      <div className={classNames}>
+        {options.map(option => (
+          <div key={option.label}>
+            <div className={cx(theme['each-check'])}>
+              <Checkbox
+                {...option}
+                checked={this.state.isChecked[option.label]}
+                onClick={this.handleCheckListChange}
+                theme={theme}
+              />
+            </div>
           </div>
-        </div>
-        <div className="clearfix" />
-      </React.Fragment>
-    ));
+        ))}
+      </div>
+    );
   }
 }
 
@@ -58,13 +59,15 @@ CheckboxGroup.propTypes = {
   options: PropTypes.oneOfType([PropTypes.array]).isRequired,
   inline: PropTypes.bool,
   onClick: PropTypes.func,
-  theme: PropTypes.string,
+  theme: PropTypes.oneOfType([
+    PropTypes.object,
+  ]),
 };
 
 CheckboxGroup.defaultProps = {
   inline: false,
   onClick: () => {},
-  theme: '',
+  theme: defaultTheme,
 };
 
 export default CheckboxGroup;

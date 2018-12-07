@@ -15,7 +15,7 @@ class Select extends Component {
       Set initially selected option label as empty string and dropdown
       state as closed for initial render.
       */
-      selected: { label: '' },
+      selected: props.defaultValue,
       open: false,
     };
     this.listRef = null;
@@ -48,10 +48,11 @@ class Select extends Component {
    * Handles key down events on select component for keyboard navigation.
    * @memberof Select
    */
-  handleKeyDown = ({ key }) => {
+  handleKeyDown = (e) => {
+    e.stopPropagation();
     const { focus } = this.state;
     const { options } = this.props;
-    switch (key) {
+    switch (e.key) {
       case 'ArrowDown':
         this.setState(
           prevState => ({
@@ -167,7 +168,7 @@ class Select extends Component {
         onClick={() => this.handleSelect(option)}
         key={option.label}
       >
-        {option.label}
+        <span>{option.label}</span>
       </span>
     ));
   };
@@ -227,11 +228,13 @@ Select.propTypes = {
   theme: PropTypes.oneOfType([PropTypes.object]).isRequired,
   className: PropTypes.string,
   onSelect: PropTypes.func,
+  defaultValue: PropTypes.oneOfType([PropTypes.object]),
 };
 
 Select.defaultProps = {
   options: [],
   className: '',
+  defaultValue: { label: '' },
   onSelect: value => console.log(value),
 };
 

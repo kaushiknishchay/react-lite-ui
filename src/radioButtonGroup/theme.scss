@@ -1,26 +1,32 @@
 @import '../globals/theme';
 
 :local(.radio-group) {
+  display: flex;
+  flex-direction: column;
+  &.inline {
+    flex-direction: row !important;
+  }
   input {
     position: relative;
     opacity: 0;
     cursor: pointer;
+    margin: 3px;
   }
-  .clearfix {
-    clear: both;
+  /* Fixes width issue in safari */
+  @media not all and (min-resolution:.001dpcm) {
+    input {
+      width: 13px;
+    }
   }
 }
 
 :local(.each-radio) {
-  &.inline {
-    float: left;
-    margin-right: 25px;
-  }
-  margin-bottom: 15px;
+  padding: 0.4em;
+  box-sizing: border-box;
 }
 
 :local(.each-label) {
-  margin-left: 10px;
+  margin-left: 0.7em;
   cursor: pointer;
 }
 

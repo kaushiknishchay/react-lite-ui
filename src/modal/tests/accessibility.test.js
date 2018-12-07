@@ -18,18 +18,19 @@ describe('Modal accessibility tests', () => {
     }
 
     toggleModal() {
-      this.setState({
-        open: true,
-      });
+      this.setState(prevState => ({
+        open: !prevState.open,
+      }));
     }
 
     render() {
+      const { open } = this.state;
       return (
         <div>
           <Button id="button" type="primary" onClick={this.toggleModal}>
             Click to Open Modal
           </Button>
-          <Modal title="This is sample modal" open={this.state.open} />
+          <Modal onClose={this.toggleModal} title="This is sample modal" open={open} />
         </div>
       );
     }
@@ -57,7 +58,7 @@ describe('Modal accessibility tests', () => {
     expect(simulatedValue()).equals(expectedValueAfterToggle);
   });
 
-  it('Successfully closes modal on clicking backdrop', () => {
+  it('Successfully closes modal on clicking backdrop', (done) => {
     const expectedValueBeforeClosing = 1;
     const expectedValueAfterClosing = 0;
     const simulatedValue = () => wrappedComponent.find('#modal').length;
@@ -68,27 +69,25 @@ describe('Modal accessibility tests', () => {
       .find(Modal)
       .childAt(0)
       .simulate('click');
-    expect(simulatedValue()).equals(expectedValueAfterClosing);
+    setTimeout(() => {
+      expect(simulatedValue()).equals(expectedValueAfterClosing);
+    }, 500);
+    done();
   });
 
-  it('Successfully closes modal on clicking close icon', () => {
+  it('Successfully closes modal on clicking close icon', (done) => {
     const expectedValueBeforeClosing = 1;
     const expectedValueAfterClosing = 0;
     const simulatedValue = () => wrappedComponent.find('#modal').length;
 
     toggleModal();
     expect(simulatedValue()).equals(expectedValueBeforeClosing);
-    const { length } = wrappedComponent
-      .find(Modal)
-      .childAt(0)
-      .childAt(0)
-      .children(); // Get the length of children elements.
     wrappedComponent
-      .find(Modal)
-      .childAt(0)
-      .childAt(0)
-      .childAt(length - 1)
+      .find('i.icon-cross')
       .simulate('click'); // Get the last child element, i.e, close icon.
-    expect(simulatedValue()).equals(expectedValueAfterClosing);
+    setTimeout(() => {
+      expect(simulatedValue()).equals(expectedValueAfterClosing);
+    }, 500);
+    done();
   });
 });

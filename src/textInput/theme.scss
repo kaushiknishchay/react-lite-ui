@@ -8,13 +8,14 @@
 }
 
 :local(.inputElement) {
-  padding-bottom: 6px;
+  padding: 0 0 6px 0;
   background-color: var(--input-text-background-color);
   border-bottom: 2px solid $original-black;
   border-left: 0;
   border-right: 0;
   border-top: 0;
-  width: 100%;
+  width: 200px;
+  max-width: 100%;
   font-size: 16px;
   display: block;
   outline: none;

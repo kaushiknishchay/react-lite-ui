@@ -24,6 +24,9 @@ import Select from './select';
 import Slider from './slider';
 import Carousel from './carousel';
 import ProgressBar from './progressbar';
+import Table from './table';
+import './globals/fonts/Roboto/index.scss';
+import './globals/fonts/PTSans/index.scss';
 
 export default {
   Button,
@@ -50,11 +53,15 @@ export default {
   Slider,
   Carousel,
   ProgressBar,
+  Table,
 };
 
+
 // ReactDOM.render(
-//   <Tooltip tooltipText="Tooltip" top>
-//     Here it is
-//   </Tooltip>,
+//   <Navbar title="logo">
+//     <span>home</span>
+//     <span>dashboard</span>
+//     <span>contact</span>
+//   </Navbar>,
 //   document.getElementById('index'),
 // );

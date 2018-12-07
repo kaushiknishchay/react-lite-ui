@@ -1,10 +1,14 @@
 @import '../globals/theme';
+
 :local(.navbarWrapper) {
+  z-index: 2;
   box-sizing: border-box;
   width: 100%;
-  min-height: 65px;
-  padding-left: 3%;
-  padding-right: 3%;
+  height: 81px;
+  height: fit-content;
+  height: -moz-fit-content;
+  font-family: 'Roboto';
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
   .clearfix {
     clear: both;
   }
@@ -12,35 +16,50 @@
 :local(.innerWrapper) {
   display: flex;
   justify-content: space-between;
-  text-transform: capitalize;
-  align-items: center;
-  min-height: 65px;
+  height: 100%;
   width: 100%;
   position: relative;
 }
+:local(.navbarContent) {
+  display: flex;
+  justify-content: space-between;
+  flex: 2;
+}
 :local(.leftContent),
 :local(.rightContent) {
+  box-sizing: border-box;
+  padding: 2%;
   display: flex;
   align-items: center;
-
 }
 :local(.title) {
-  font-size: 20px;
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  height: 33px;
+  font-size: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: $white;
   margin-right: 15px;
   white-space: nowrap;
+  text-overflow: ellipsis;
 }
 :local(.leftIcon),
 :local(.rightIcon) {
+  box-sizing: border-box;
+  padding: 0.5rem;
   margin-top: auto;
   margin-bottom: auto;
+  height: 100%;
+  font-size: 24px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  svg {
-    max-width: 20px;
-    max-height: 20px;
-    fill: $original-white;
+  svg, img {
+    width: auto;
+    height: 100%;
+    color: $white;
+    fill: $white;
   }
 }
 :local(.leftIcon) {
@@ -71,10 +90,69 @@
   position: relative;
 }
 :local(.defaultColor) {
-  background-color: $secondary-violet;
-  color: $original-white;
-  box-shadow: 0px 5px 8px -2px $secondary-grey;
+  background-color: $cool-blue;
 }
 :local(.flat) {
   box-shadow: none;
+}
+:local(.navlinks) {
+  display: flex;
+  align-items: center;
+  color: $white;
+  font-size: 20px;
+  & > * {
+    cursor: pointer;
+    padding: 6px 10px;
+    margin: auto 12px;
+    &:hover,
+    &:active {
+      background-color: rgba(0, 0, 0, 0.29);
+    }
+  }
+}
+:local(.navbarMobileMenu) {
+  display: none;
+}
+
+.icon-menu {
+  display: none;
+  outline: none;
+}
+@media only screen and (max-width: 768px) {
+  .icon-menu {
+    display: block;
+    background: white;
+    color: $cool-blue;
+  }
+
+  :local(.navlinks) {
+    flex-direction: column;
+    color: $white;
+    font-size: 18px;
+    & > * {
+      width: 100%;
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+
+  :local(.navbarMenu) {
+    display: none;
+  }
+
+  :local(.navbarMobileMenu)  {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    background-color: $cool-blue;
+    fill: $white;
+    padding: 2%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    outline: none;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5);
+  }
 }

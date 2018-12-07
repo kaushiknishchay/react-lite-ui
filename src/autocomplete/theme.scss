@@ -6,6 +6,7 @@
     @include customScroll();
     width: 20vw;
     font-family: Roboto;
+    position: relative;
     :local(.input-container) {
         min-width: 100%;
         position: relative;
@@ -33,6 +34,8 @@
         box-shadow: $dropdown-menu-shadow;
         border-radius: 2px;
         margin-top: 10px;
+        position: absolute;
+        background-color: white;
 
         @include sectionEntry(0.25s);
         
@@ -62,5 +65,10 @@
         animation-duration: 0.3s;
         animation-timing-function: linear;
         margin-top: -2px;
+        position: relative;
+        /* Safari only style */
+        @media not all and (min-resolution:.001dpcm) {
+          bottom: 2px;
+        }
     }
 }
